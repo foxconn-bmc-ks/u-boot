@@ -1546,9 +1546,9 @@ static void set_mac_control_register (struct eth_device* dev)
 				}
 			}
 			if (PHY_Duplex) {
-				MAC_CR_Register |= FULLDUP_bit;
-			} else {
 				MAC_CR_Register &= ~FULLDUP_bit;
+			} else {
+				MAC_CR_Register |= FULLDUP_bit;
 			}
 		} else {
 			printf("Unknow Chip_ID %x\n",Chip_ID);
