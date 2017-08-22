@@ -418,6 +418,31 @@ static void enable4b_numonyx (flash_info_t * info)
 
 } /* enable4b_numonyx */
 
+static void config_io_mode(const flash_info_t* info) {
+	ulong addr = 0;
+	ulong ctrl = 0;
+	if (!info->iomode) {
+		return;
+	}
+	addr = info->reg_base;
+	switch (info->CE) {
+		case 0:
+			addr += CS0_CTRL;
+			break;
+		case 1:
+			addr += CS1_CTRL;
+			break;
+		case 2:
+			addr += CS2_CTRL;
+			break;
+	}
+	ctrl = *(ulong *) addr;
+	ctrl &= 0x8FFFFFFF;
+	ctrl |= info->iomode;
+	*(ulong *) addr = ctrl;
+	udelay(200);
+}
+
 /*-----------------------------------------------------------------------
  */
 static void flash_write_buffer (flash_info_t *info, uchar *src, ulong addr, int len)
@@ -466,6 +491,7 @@ static void flash_write_buffer (flash_info_t *info, uchar *src, ulong addr, int 
         *(uchar *) (base) = (uchar) ((offset & 0x0000ff));
         udelay(10);
 
+        config_io_mode(info);
         for (j=0; j<len; j++)
         {
             *(uchar *) (base) = *(uchar *) (src++);
