@@ -38,6 +38,7 @@ int board_init(void)
 	/* adress of boot parameters */
 	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
 	gd->flags = 0;
+	WDT2_counter_setting();
 	return 0;
 }
 
@@ -128,3 +129,10 @@ int board_eth_init(bd_t *bd)
 	return aspeednic_initialize(bd);
 }
 #endif
+
+void WDT2_counter_setting()
+{
+    *((volatile ulong *)0x1e785024) = 0x07270e00;  // change timeout to 120 seconds
+    *((volatile ulong *)0x1e785028) = 0x00004755;  // magic number to trigger reload
+    return;
+}
