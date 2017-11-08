@@ -74,6 +74,12 @@ int misc_init_r(void)
        *((volatile ulong*) 0x1e786000) = 0xf01;
        *((volatile ulong*) 0x1e786040) = 0xf01;
 
+    /* Set GPIOF5 to Output and make sure GPIOF5 keep High */
+    reg = readl(AST_GPIO_BASE + 0x24); //Direction Register
+    reg |= 0x00002000; //set GPIOF5 to output
+    reg = readl(AST_GPIO_BASE + 0x20); //Data Register
+    reg |= 0x00002000; //set GPIOF5 to High
+
 	/*
 	 * The original file contained these comments.
 	 * TODO: verify the register write does what it claims
