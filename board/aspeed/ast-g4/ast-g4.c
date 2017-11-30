@@ -121,7 +121,7 @@ int board_eth_init(bd_t *bd)
 
 void WDT2_counter_setting()
 {
-    *((volatile ulong *)0x1e785024) = 0x07270e00;  // change timeout to 120 seconds
+    *((volatile ulong *)0x1e785024) = 0x0aba9500;  // change timeout to 180 seconds
     *((volatile ulong *)0x1e785028) = 0x00004755;  // magic number to trigger reload
     return;
 }
