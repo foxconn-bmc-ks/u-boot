@@ -422,7 +422,7 @@ int serial_init(void)
 	//set GPIOL6&GPIOL7 multi-function control as TXD1&RXD1
 	reg = readl(AST_SCU_BASE | 0x84);
 	reg |= (BIT(22) | BIT(23));
-	writel(reg, AST_LPC_BASE | 0x9C);
+	writel(reg, AST_SCU_BASE | 0x84);
 	//route UART5 to IO1
 	reg = readl(AST_LPC_BASE | 0x9C);
 	reg &= ~(BIT(0) | BIT(1) | BIT(2));
