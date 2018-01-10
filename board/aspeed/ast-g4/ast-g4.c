@@ -22,7 +22,7 @@ int board_init(void)
 	/* adress of boot parameters */
 	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
 	gd->flags = 0;
-	WDT2_setting();
+	WDT2_counter_setting();
 	return 0;
 }
 
@@ -119,13 +119,8 @@ int board_eth_init(bd_t *bd)
 }
 #endif
 
-void WDT2_setting()
+void WDT2_counter_setting()
 {
-    u32 reg;
-    reg = readl(AST_WDT_BASE + 0x2c);
-    reg |= 0x1;
-    writel(reg, AST_WDT_BASE + 0x2c); //enable watchdog2
-
     *((volatile ulong *)0x1e785024) = 0x0aba9500;  // change timeout to 180 seconds
     *((volatile ulong *)0x1e785028) = 0x00004755;  // magic number to trigger reload
     return;
